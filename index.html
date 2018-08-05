@@ -22,23 +22,49 @@
 
 
         <script>
-            var palyerMove = function(move){                             
-                if (move == 'paper') {
-                    output.innerHTML = '<h4>Zagrałeś papier!</h4>' + '<br><br>' + output.innerHTML;
+            /*Functions*/
+            var palyerMove = function(player){                             
+                if (player === 'paper') {
+                    output.innerHTML = '<h4>Zagrałeś papier!</h4>' + '<br><br>' + output.innerHTML; 
+                    return player;                   
                 }
-                else if (move == 'rock') {
+                else if (player === 'rock') {
                     output.innerHTML = '<h4>Zagrałeś kamień!</h4>' + '<br><br>' + output.innerHTML;
+                    return player;  
                 }
-                else if (move == 'scissors') {
+                else if (player === 'scissors') {
                     output.innerHTML = '<h4>Zagrałeś nożyce!</h4>' + '<br><br>' + output.innerHTML;
+                    return player;  
                 }
+            }            
+
+            var computerChoice = function() {
+                var randomNumber = Math.random();
+                var computerNumber = parseInt(randomNumber * 3 + 1);
+                if (computerNumber == 1) {
+                   var computerChoice = 'paper';
+                   return computerChoice;  
+                }
+                else if (computerNumber == 2) {
+                   var computerChoice = 'rock';
+                   return computerChoice;  
+                }
+                else if (computerNumber == 3) {
+                   var computerChoice = 'scissors';
+                   return computerChoice;  
+                }                              
             }
+            
+            /*Functions END*/
 
             var output = document.getElementById('first-output');
             output.innerHTML = '<h4>Choose your move!</h4>' + '<br><br>' + output.innerHTML; 
             var paperButton = document.getElementById('paper-button');
             var rockButton = document.getElementById('rock-button');
-            var scissorsButton = document.getElementById('rock-button');
+            var scissorsButton = document.getElementById('scissors-button');
+
+
+            
             
             paperButton.addEventListener('click', function(){                             
                 palyerMove('paper');
