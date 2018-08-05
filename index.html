@@ -19,5 +19,36 @@
         </div>
             <br>
         <div id="first-output">This is output for JS</div> 
+
+
+        <script>
+            var palyerMove = function(move){                             
+                if (move == 'paper') {
+                    output.innerHTML = '<h4>Zagrałeś papier!</h4>' + '<br><br>' + output.innerHTML;
+                }
+                else if (move == 'rock') {
+                    output.innerHTML = '<h4>Zagrałeś kamień!</h4>' + '<br><br>' + output.innerHTML;
+                }
+                else if (move == 'scissors') {
+                    output.innerHTML = '<h4>Zagrałeś nożyce!</h4>' + '<br><br>' + output.innerHTML;
+                }
+            }
+
+            var output = document.getElementById('first-output');
+            output.innerHTML = '<h4>Choose your move!</h4>' + '<br><br>' + output.innerHTML; 
+            var paperButton = document.getElementById('paper-button');
+            var rockButton = document.getElementById('rock-button');
+            var scissorsButton = document.getElementById('rock-button');
+            
+            paperButton.addEventListener('click', function(){                             
+                palyerMove('paper');
+            });  
+            rockButton.addEventListener('click', function(){
+                palyerMove('rock');
+            }); 
+            scissorsButton.addEventListener('click', function(){
+                palyerMove('scissors');
+            });        
+        </script>
     </body>    
 </html>
