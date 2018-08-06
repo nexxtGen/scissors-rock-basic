@@ -23,13 +23,36 @@
 
         <script>
             /*Functions*/
-            var palyerMove = function(player){                             
-                if (player === 'paper') {
-                    output.innerHTML = '<h4>Zagrałeś papier!</h4>' + '<br><br>' + output.innerHTML; 
-                    return player;                   
-                }
+            
+
+            var outputMessageGame = function(wonValue, playerFinal, computerFinal) { 
+                output.innerHTML = '<h4>'+ wonValue + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4>' + output.innerHTML;                                          
+                //output.innerHTML = '<h4> test'+ wonValue + ': you played ' + playerFinal + ', computer played' + computerFinal + '<br></h4> aa' + output.innerHTML;
+            }
+            
+            var palyerMove = function(player){ 
+                var won = 'YOU WON!'; 
+                var lost = 'YOU LOST :(';
+                var draw = 'IS DEAD-HEAD';                        
+                if (player == 'paper') {                    
+                    var playerFinal = 'paper';
+                    var computerFinal = computerChoice();
+                    if (computerFinal == 'paper') {                                           
+                        outputMessageGame(draw, playerFinal, computerFinal);                        
+                       // output.innerHTML = '<h4>'+ draw + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4> aa' + output.innerHTML;
+                    }
+                    else if (computerFinal == 'rock') {                        
+                        outputMessageGame(won, playerFinal, computerFinal);
+                       // output.innerHTML = '<h4>'+ won + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4> aa' + output.innerHTML;
+                    }
+                    else if (computerFinal == 'scissors') {
+                        outputMessageGame(lost, playerFinal, computerFinal);
+                       // output.innerHTML = '<h4>'+ lost + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4> aa' + output.innerHTML;
+                    } 
+                }            
                 else if (player === 'rock') {
                     output.innerHTML = '<h4>Zagrałeś kamień!</h4>' + '<br><br>' + output.innerHTML;
+                    
                     return player;  
                 }
                 else if (player === 'scissors') {
@@ -64,7 +87,7 @@
             var scissorsButton = document.getElementById('scissors-button');
 
 
-            
+
             
             paperButton.addEventListener('click', function(){                             
                 palyerMove('paper');
@@ -74,7 +97,8 @@
             }); 
             scissorsButton.addEventListener('click', function(){
                 palyerMove('scissors');
-            });        
+            });   
+
         </script>
     </body>    
 </html>
