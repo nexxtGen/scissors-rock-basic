@@ -7,7 +7,10 @@
 		<title>Js script test</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">		
 	</head>
-	<body>  
+	<body>
+        <div>             
+            <button id="start-button">Start Game</button>
+        </div>  
         <div>             
             <button id="paper-button">Paper</button>
         </div>
@@ -18,16 +21,31 @@
             <button id="scissors-button">Scissors</button>
         </div>
             <br>
-        <div id="first-output">This is output for JS</div> 
+        <div id="result">Game result</div> 
+        <div id="first-output"></div> 
 
 
         <script>
-            /*Functions*/
-            
 
-            var outputMessageGame = function(wonValue, playerFinal, computerFinal) { 
-                output.innerHTML = '<h4>'+ wonValue + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4>' + output.innerHTML;                                          
-                //output.innerHTML = '<h4> test'+ wonValue + ': you played ' + playerFinal + ', computer played' + computerFinal + '<br></h4> aa' + output.innerHTML;
+            /*GLOBAL VARS*/
+            //alert(userWinRate,'  ' ,computerWinRate);
+            //alert(countMessages);
+
+            /*
+            var countMessages = 0;
+            var userWinRate = 0;
+            var computerWinRate = 0;
+            */
+
+            /*GLOBAL VARS END*/ 
+
+            /*Functions*/
+
+            var outputMessageGame = function(wonValue, playerFinal, computerFinal) {               
+                output.innerHTML = '<h4>'+ wonValue + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4>' + output.innerHTML;
+                countMessages += 1;
+                //alert(countMessages); 
+                return countMessages; 
             }
             
             var palyerMove = function(player){ 
@@ -38,28 +56,54 @@
                     var playerFinal = 'paper';
                     var computerFinal = computerChoice();
                     if (computerFinal == 'paper') {                                           
-                        outputMessageGame(draw, playerFinal, computerFinal);                        
-                       // output.innerHTML = '<h4>'+ draw + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4> aa' + output.innerHTML;
+                        outputMessageGame(draw, playerFinal, computerFinal);
                     }
                     else if (computerFinal == 'rock') {                        
                         outputMessageGame(won, playerFinal, computerFinal);
-                       // output.innerHTML = '<h4>'+ won + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4> aa' + output.innerHTML;
+                        userWinRate += 1;
+                        return userWinRate;
                     }
                     else if (computerFinal == 'scissors') {
                         outputMessageGame(lost, playerFinal, computerFinal);
-                       // output.innerHTML = '<h4>'+ lost + ': you played ' + playerFinal + ', computer played ' + computerFinal + '<br></h4> aa' + output.innerHTML;
+                        computerWinRate += 1;
+                        return computerWinRate;
                     } 
                 }            
                 else if (player === 'rock') {
-                    output.innerHTML = '<h4>Zagrałeś kamień!</h4>' + '<br><br>' + output.innerHTML;
-                    
-                    return player;  
+                    var playerFinal = 'rock';
+                    var computerFinal = computerChoice();
+                    if (computerFinal == 'paper') {                                           
+                        outputMessageGame(lost, playerFinal, computerFinal);                        
+                        computerWinRate += 1;
+                        return computerWinRate;
+                    }
+                    else if (computerFinal == 'rock') {                        
+                        outputMessageGame(draw, playerFinal, computerFinal);                       
+                    }
+                    else if (computerFinal == 'scissors') {
+                        outputMessageGame(won, playerFinal, computerFinal);
+                        userWinRate += 1;
+                        return userWinRate;
+                    }
                 }
                 else if (player === 'scissors') {
-                    output.innerHTML = '<h4>Zagrałeś nożyce!</h4>' + '<br><br>' + output.innerHTML;
-                    return player;  
-                }
-            }            
+                    var playerFinal = 'scissors';
+                    var computerFinal = computerChoice();
+                    if (computerFinal == 'paper') {                                           
+                        outputMessageGame(won, playerFinal, computerFinal);                        
+                        userWinRate += 1;
+                        return userWinRate;
+                    }
+                    else if (computerFinal == 'rock') {                        
+                        outputMessageGame(lost, playerFinal, computerFinal);
+                        computerWinRate += 1;
+                        return computerWinRate;
+                    }
+                    else if (computerFinal == 'scissors') {
+                        outputMessageGame(draw, playerFinal, computerFinal);                       
+                    }
+                }                
+            }           
 
             var computerChoice = function() {
                 var randomNumber = Math.random();
@@ -76,29 +120,91 @@
                    var computerChoice = 'scissors';
                    return computerChoice;  
                 }                              
-            }
-            
-            /*Functions END*/
-
+            }            
+            /*Functions END*/           
             var output = document.getElementById('first-output');
+            var output2 = document.getElementById('result');
             output.innerHTML = '<h4>Choose your move!</h4>' + '<br><br>' + output.innerHTML; 
+            var startButton = document.getElementById('start-button');
             var paperButton = document.getElementById('paper-button');
             var rockButton = document.getElementById('rock-button');
             var scissorsButton = document.getElementById('scissors-button');
 
-
-
+            var countMessages = 0;
+            var userWinRate;
+            var computerWinRate;
+            var isFinish;
+            var levelCap;
+                        
+            startButton.addEventListener('click', function() { 
+                userWinRate = 0;
+                computerWinRate = 0;
+                levelCap = window.prompt('Set round number to Win', 0);
+                if (levelCap < 99999 && levelCap > 0) {                         
+                     output.innerHTML = 'Hello! You set '+ levelCap +' necessary rounds to the end of the game.<br>' + output.innerHTML;                                     
+                }
+                else {
+                     output.innerHTML = 'Hello stranger, set correct round number! (1-99999)' + '<br><br>' + output.innerHTML;
+                }
+                return userWinRate; 
+                return computerWinRate;  
+                return levelCap;                                                             
+               
+                
+            });
             
-            paperButton.addEventListener('click', function(){                             
-                palyerMove('paper');
-            });  
+             paperButton.addEventListener('click', function(){ 
+                if (userWinRate < levelCap && computerWinRate < levelCap ){                                      
+                     palyerMove('paper');
+                     output2.innerHTML = 'Your score: ' + userWinRate + '. Computer score:'+ computerWinRate + ' .<br> ' +output2.innerHTML;
+                }      
+                else if (userWinRate == levelCap && computerWinRate < levelCap) {
+                    alert('You won entire GAME!! click START');
+                    var isFinish = true;
+                    return;
+                }
+                else if (computerWinRate == levelCap && userWinRate < levelCap) {
+                    alert('You LOST, Computer WIN! Clist start new game');
+                    var isFinish = true;
+                    return;
+                }      
+             }); 
             rockButton.addEventListener('click', function(){
-                palyerMove('rock');
+                if (userWinRate <= 2 && computerWinRate <=2){                                      
+                     palyerMove('rock');
+                     output2.innerHTML = 'Your score: ' + userWinRate + '. Computer score:'+ computerWinRate + ' .<br> ' +output2.innerHTML;
+                }      
+                else if (userWinRate == 3 && computerWinRate < 3) {
+                    alert('You won entire GAME!! click START');
+                    var isFinish = true;
+                    return;
+                }
+                else if (computerWinRate == 3 && userWinRate < 3) {
+                    alert('You LOST, Computer WIN! Clist start new game');
+                    var isFinish = true;
+                    return;
+                }   
             }); 
             scissorsButton.addEventListener('click', function(){
-                palyerMove('scissors');
-            });   
-
+                if (userWinRate <= 2 && computerWinRate <=2){                                      
+                     palyerMove('scissors');
+                     output2.innerHTML = 'Your score: ' + userWinRate + '. Computer score:'+ computerWinRate + ' .<br> ' +output2.innerHTML;
+                }      
+                else if (userWinRate == 3 && computerWinRate < 3) {
+                    alert('You won entire GAME!! click START');
+                    var isFinish = true;
+                    return;
+                }
+                else if (computerWinRate == 3 && userWinRate < 3) {
+                    alert('You LOST, Computer WIN! Clist start new game');
+                    var isFinish = true;
+                    return;
+                } 
+            });            
+            if (isFinish == true) {                
+                alert(isFinish,'koniec KURWA');
+            }
+                                         
         </script>
     </body>    
 </html>
